@@ -10,6 +10,7 @@ function List({ list, setList, handleAdd, todolist }) {
   }
   function handleEdit(l) {
     setEditItem(l);
+    setEditedValue(l);
   }
   function handleChangeEdit(e) {
     setEditedValue(e.target.value);
@@ -19,9 +20,11 @@ function List({ list, setList, handleAdd, todolist }) {
     // setList(() => input);
     // console.log(l);
     if (editedValue !== "") {
-      const filtered = list.filter((e) => e !== l);
-
-      setList([...filtered, editedValue !== l ? editedValue : ""]);
+      //   const filtered = list.filter((e) => e !== l);
+      const index = list.indexOf(l);
+      const updatedList = [...list];
+      if (index !== -1) updatedList[index] = editedValue;
+      setList(updatedList);
       setEditItem("");
       setEditedValue("");
       //   todolist.push(e);
@@ -49,7 +52,6 @@ function List({ list, setList, handleAdd, todolist }) {
               }}
               onSubmit={() => handleEditAdd(l)}
             >
-              {" "}
               <input
                 type="text"
                 value={editedValue}
@@ -62,14 +64,13 @@ function List({ list, setList, handleAdd, todolist }) {
                   width: "200px",
                 }}
               />
-              {/* </input> */}
               <button
                 type="button"
                 className="btn btn-primary"
                 onClick={() => handleEditAdd(l)}
                 style={{ width: "35px" }}
               >
-                Add
+                Save
               </button>
             </div>
           );
